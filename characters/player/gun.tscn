@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhjvpit675pyr"]
+
+[ext_resource type="Script" path="res://characters/player/gun.gd" id="1_8py82"]
+[ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_mrc68"]
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_8py82")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.242966, 0.242966, 0.242966, 1)
+scale = Vector2(0.8, 0.1)
+texture = ExtResource("1_mrc68")
+
+[node name="BulletSpawnMarker" type="Marker2D" parent="Sprite2D"]
+position = Vector2(57.5, 0)
+scale = Vector2(1.25, 10)
+
+[node name="ShootCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ShootCooldownTimer" to="." method="_on_shoot_cooldown_timer_timeout"]

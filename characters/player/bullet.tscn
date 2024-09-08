@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbe387hm1bqum"]
+
+[ext_resource type="Script" path="res://characters/player/bullet.gd" id="1_ry17r"]
+[ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_whnke"]
+[ext_resource type="Script" path="res://components/MoveNode2D.gd" id="3_52tom"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpt0d"]
+size = Vector2(10, 10)
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_ry17r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.713726, 0, 1)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("1_whnke")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mpt0d")
+
+[node name="DeleteTimer" type="Timer" parent="."]
+
+[node name="MoveNode2D" type="Node" parent="." node_paths=PackedStringArray("node2d")]
+script = ExtResource("3_52tom")
+node2d = NodePath("..")
+move_speed = 600.0

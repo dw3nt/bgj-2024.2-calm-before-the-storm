@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://kskndmkrj3y5"]
+
+[ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_5kruu"]
+[ext_resource type="Script" path="res://characters/enemies/enemy.gd" id="1_v0a4c"]
+[ext_resource type="Script" path="res://components/ChaseTarget.gd" id="2_0tabp"]
+[ext_resource type="Script" path="res://components/MoveCharacter.gd" id="3_ssjmx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78joa"]
+size = Vector2(100, 100)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_v0a4c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.855246, 0.129513, 2.98411e-06, 1)
+position = Vector2(0, -50)
+texture = ExtResource("1_5kruu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_78joa")
+
+[node name="ChaseTarget" type="Node" parent="." node_paths=PackedStringArray("move_node")]
+script = ExtResource("2_0tabp")
+move_node = NodePath("../MoveCharacter")
+chase_update_delay = 1.0
+
+[node name="MoveCharacter" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("3_ssjmx")
+character = NodePath("..")
+move_speed = 100.0

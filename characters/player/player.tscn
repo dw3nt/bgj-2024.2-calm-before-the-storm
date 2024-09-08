@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://iybudh02djeb"]
+
+[ext_resource type="Script" path="res://characters/player/player.gd" id="1_fdd1k"]
+[ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_qppp2"]
+[ext_resource type="PackedScene" uid="uid://dhjvpit675pyr" path="res://characters/player/gun.tscn" id="3_jwjd5"]
+[ext_resource type="Script" path="res://components/MoveInput.gd" id="4_3uf7q"]
+[ext_resource type="Script" path="res://components/MoveCharacter.gd" id="5_hjgyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhlb"]
+size = Vector2(100, 100)
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_fdd1k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(9.2411e-06, 0.91345, 0.177305, 1)
+position = Vector2(0, -50)
+texture = ExtResource("1_qppp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_jyhlb")
+
+[node name="Gun" parent="." instance=ExtResource("3_jwjd5")]
+position = Vector2(26, -26)
+
+[node name="MoveInput" type="Node" parent="." node_paths=PackedStringArray("move_character")]
+script = ExtResource("4_3uf7q")
+move_character = NodePath("../MoveCharacter")
+
+[node name="MoveCharacter" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("5_hjgyv")
+character = NodePath("..")
+move_speed = 300.0
+
+[connection signal="bullet_spawned" from="Gun" to="." method="_on_gun_bullet_spawned"]

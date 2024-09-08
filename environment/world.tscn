@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3o1du1xp816r"]
+
+[ext_resource type="Script" path="res://environment/world.gd" id="1_a50uo"]
+[ext_resource type="PackedScene" uid="uid://iybudh02djeb" path="res://characters/player/player.tscn" id="1_v5lqc"]
+[ext_resource type="PackedScene" uid="uid://kskndmkrj3y5" path="res://characters/enemies/enemy.tscn" id="3_e1gxx"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_a50uo")
+
+[node name="Player" parent="." instance=ExtResource("1_v5lqc")]
+position = Vector2(531, 343)
+
+[node name="BulletWrapper" type="Node2D" parent="."]
+
+[node name="EnemyWrapper" type="Node2D" parent="."]
+
+[node name="Enemy" parent="EnemyWrapper" node_paths=PackedStringArray("target") instance=ExtResource("3_e1gxx")]
+position = Vector2(246, 224)
+target = NodePath("../../Player")
+
+[connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
