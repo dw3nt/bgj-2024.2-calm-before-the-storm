@@ -1,12 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://iybudh02djeb"]
+[gd_scene load_steps=10 format=3 uid="uid://iybudh02djeb"]
 
 [ext_resource type="Script" path="res://characters/player/player.gd" id="1_fdd1k"]
 [ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_qppp2"]
 [ext_resource type="PackedScene" uid="uid://dhjvpit675pyr" path="res://characters/player/gun.tscn" id="3_jwjd5"]
 [ext_resource type="Script" path="res://components/MoveInput.gd" id="4_3uf7q"]
 [ext_resource type="Script" path="res://components/MoveCharacter.gd" id="5_hjgyv"]
+[ext_resource type="Script" path="res://components/Health.gd" id="6_cyqcj"]
+[ext_resource type="Script" path="res://components/Hurtbox.gd" id="7_etahn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhlb"]
+size = Vector2(100, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rd8u"]
 size = Vector2(100, 100)
 
 [node name="Player" type="CharacterBody2D"]
@@ -19,6 +24,7 @@ position = Vector2(0, -50)
 texture = ExtResource("1_qppp2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_jyhlb")
 
@@ -34,4 +40,18 @@ script = ExtResource("5_hjgyv")
 character = NodePath("..")
 move_speed = 300.0
 
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_cyqcj")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("7_etahn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_8rd8u")
+
 [connection signal="bullet_spawned" from="Gun" to="." method="_on_gun_bullet_spawned"]
+[connection signal="no_health" from="Health" to="." method="_on_health_no_health"]
+[connection signal="hurtbox_hit" from="Hurtbox" to="." method="_on_hurtbox_hurtbox_hit"]
