@@ -65,6 +65,12 @@ pause={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="world"
+2d_physics/layer_3="player_hurt"
+2d_physics/layer_4="enemy_hurt"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

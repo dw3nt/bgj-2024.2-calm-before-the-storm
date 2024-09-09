@@ -1,26 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbe387hm1bqum"]
+[gd_scene load_steps=6 format=3 uid="uid://bbe387hm1bqum"]
 
 [ext_resource type="Script" path="res://characters/player/bullet.gd" id="1_ry17r"]
 [ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_whnke"]
 [ext_resource type="Script" path="res://components/MoveNode2D.gd" id="3_52tom"]
+[ext_resource type="Script" path="res://components/Hitbox.gd" id="4_f2jgq"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpt0d"]
-size = Vector2(10, 10)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s4xly"]
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Node2D"]
+z_index = 2
 script = ExtResource("1_ry17r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0.713726, 0, 1)
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("1_whnke")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_mpt0d")
-
-[node name="DeleteTimer" type="Timer" parent="."]
 
 [node name="MoveNode2D" type="Node" parent="." node_paths=PackedStringArray("node2d")]
 script = ExtResource("3_52tom")
 node2d = NodePath("..")
 move_speed = 600.0
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("4_f2jgq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_s4xly")
+
+[connection signal="hurtbox_hit" from="Hitbox" to="." method="_on_hitbox_hurtbox_hit"]

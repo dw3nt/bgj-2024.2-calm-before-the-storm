@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://kskndmkrj3y5"]
+[gd_scene load_steps=8 format=3 uid="uid://kskndmkrj3y5"]
 
 [ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_5kruu"]
 [ext_resource type="Script" path="res://characters/enemies/enemy.gd" id="1_v0a4c"]
 [ext_resource type="Script" path="res://components/ChaseTarget.gd" id="2_0tabp"]
 [ext_resource type="Script" path="res://components/MoveCharacter.gd" id="3_ssjmx"]
+[ext_resource type="Script" path="res://components/Hurtbox.gd" id="5_2cu1l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_78joa"]
 size = Vector2(100, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmmrt"]
+size = Vector2(120, 120)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_v0a4c")
@@ -29,3 +33,14 @@ chase_update_delay = 1.0
 script = ExtResource("3_ssjmx")
 character = NodePath("..")
 move_speed = 100.0
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("5_2cu1l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_fmmrt")
+
+[connection signal="hurtbox_hit" from="Hurtbox" to="." method="_on_hurtbox_hurtbox_hit"]
