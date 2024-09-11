@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bkuo47kd6mh5f"]
+
+[ext_resource type="Script" path="res://objects/gear.gd" id="1_0yxu7"]
+[ext_resource type="Texture2D" uid="uid://buqbnxxm1tpu1" path="res://icon.svg" id="1_ppnlj"]
+[ext_resource type="Script" path="res://components/MoveNode2D.gd" id="2_bo6hj"]
+[ext_resource type="Script" path="res://components/ChaseTarget.gd" id="4_x4ghx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10hhr"]
+size = Vector2(30, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lsng0"]
+radius = 140.0
+
+[node name="Gear" type="Area2D"]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("1_0yxu7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.383597, 0.383597, 0.383597, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_ppnlj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_10hhr")
+
+[node name="PickupDetect" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupDetect"]
+shape = SubResource("CircleShape2D_lsng0")
+
+[node name="MoveNode2D" type="Node" parent="." node_paths=PackedStringArray("node2d")]
+script = ExtResource("2_bo6hj")
+node2d = NodePath("..")
+move_speed = 100.0
+
+[node name="ChaseTarget" type="Node" parent="." node_paths=PackedStringArray("move_node")]
+script = ExtResource("4_x4ghx")
+move_node = NodePath("../MoveNode2D")
+chase_threshold = 0.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="PickupDetect" to="." method="_on_pickup_detect_body_entered"]
